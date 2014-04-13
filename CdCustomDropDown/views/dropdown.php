@@ -5,13 +5,11 @@
 /* @var $this CdCustomDropDown */
 
 echo CHtml::openTag('div', $this->wrapperOptions);
-echo $this->mainContent;
+echo $this->mainContent; // default dropdown label
 echo CHtml::openTag('ul', $this->listOptions);
 foreach ( $this->items as $item )
 {
-    echo CHtml::openTag('li');
     echo $this->getItemContent($item);
-    echo CHtml::closeTag('li');
 }
 echo CHtml::closeTag('ul');
 echo CHtml::closeTag('div');

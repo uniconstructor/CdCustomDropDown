@@ -19,6 +19,7 @@ class CdCustomDropDown extends CWidget
      *         'url'  => 'http://example.com/section1',
      *         'text' => 'Menu Item',
      *         'linkOptions' => array('target' => '_blank'),
+     *         'itemOptions' => array('style' => 'line-height:45px;'),
      *     ),
      *     // menu item with text and icon
      *     [1] => array(
@@ -26,12 +27,14 @@ class CdCustomDropDown extends CWidget
      *         'text' => 'Menu Item',
      *         'icon' => '<i class="icon-gear"></i>', // you can also use any custom html here
      *         'linkOptions' => array('target' => '_blank'),
+     *         'itemOptions' => array('style' => 'line-height:45px;'),
      *     ),
      *     // menu item with custom html content
      *     [2] => array(
      *         'url'  => 'http://example.com/section3',
      *         'html' => '<i class="icon-gear"></i>Menu Item',
      *         'linkOptions' => array('target' => '_blank'),
+     *         'itemOptions' => array('style' => 'line-height:45px;'),
      *     ),
      * )
      */
@@ -95,31 +98,39 @@ class CdCustomDropDown extends CWidget
     {
         $content     = '';
         $linkOptions = array();
+        $itemOptions = array();
         $url         = '#';
         
         if ( isset($item['linkOptions']) AND is_array($item['linkOptions']) )
         {
             $linkOptions = $item['linkOptions'];
         }
-        if ( isset($item['url']) )
+        if ( isset($item['itemOptions']) AND is_array($item['itemOptions']) )
+        {
+            $itemOptions = $item['itemOptions'];
+        }
+        if ( isset($item['url']) AND $item['url'] )
         {
             $url = $item['url'];
         }
         
+        $content .= CHtml::openTag('li', $itemOptions);
         if ( isset($item['html']) )
         {// item with custom html content
-            $content = $item['html'];
+            $label = $item['html'];
         }elseif ( isset($item['text']) AND isset($item['icon']) )
         {// item with text and icon
-            $content .= $item['icon'].$item['text'];
+            $label = $item['icon'].$item['text'];
         }elseif ( isset($item['text']) AND ! isset($item['icon']) )
         {// item with text only
-            $content .= $item['text'];
+            $label = $item['text'];
         }else
         {// incorrect function argument
             throw new CException('Error: wrong menu item content');
         }
+        $content .= CHtml::link($label, $url, $linkOptions);
+        $content .= CHtml::closeTag('li');
         
-        return CHtml::link($content, $url, $linkOptions);
+        return $content;
     }
 }
