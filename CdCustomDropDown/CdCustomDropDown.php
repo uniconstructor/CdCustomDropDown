@@ -70,6 +70,7 @@ class CdCustomDropDown extends CWidget
      */
     public function init()
     {
+        Yii::app()->clientScript->registerCoreScript('jquery');
         $this->assetUrl = Yii::app()->assetManager->publish(Yii::getPathOfAlias('ext.CdCustomDropDown.assets'));
         
         Yii::app()->clientScript->registerCssFile($this->assetUrl.'/css/style.css');
@@ -87,6 +88,9 @@ class CdCustomDropDown extends CWidget
      */
     public function run()
     {
+        $js = $this->render('ext.CdCustomDropDown.views.activationJs', array(), true);
+        Yii::app()->clientScript->registerScript('_menuActivation$'.$this->id, $js, CClientScript::POS_READY);
+        
         $this->render('ext.CdCustomDropDown.views.dropdown');
     }
     
