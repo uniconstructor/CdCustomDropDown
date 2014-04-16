@@ -1,12 +1,5 @@
 /* GLOBALS */
 
-::selection {
-    background: transparent; 
-}
-
-::-moz-selection {
-    background: transparent; 
-}
 
 .wrapper-demo {
     margin: 60px 0 0 0;
